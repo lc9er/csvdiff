@@ -14,7 +14,7 @@ Reference: https://aswinkarthik.github.io/csvdiff/
 
 ```FSharp
 let myMap = 
-    ["bjm25",["hash";"bjm25,staff,coolguy";"0";"OGFILE"]; "bjm26",["hash";"bjm26,student,dork";"1";"OGFILE"]] |> Map.ofList
+    ["uid25",["hash";"uid25,staff,coolguy";"0";"OGFILE"]; "uid26",["hash";"uid26,student,dork";"1";"OGFILE"]] |> Map.ofList
 ```
 
 myMap = [ HASHofKey, RECORD; HASHofKey2, RECORD2; etc ]
