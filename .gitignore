@@ -1,4 +1,4 @@
-obj
-*.csv
 tags
 bin
+obj
+*.csv
