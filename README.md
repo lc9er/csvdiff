@@ -1,12 +1,12 @@
 # csvdiff - diff two csv files
 
-1. Read in two csv files.
+DONE 1. Read in two csv files.
 2. Exclude/Include fields.
-3. Create map
+DONE 3. Create map
     a. Key = primary key (1st column default. Can specify one or more.)
-    b. Value = List [ hashOfLine, "LineNum", "FileName", "Concated line content" ]
+    b. Value = { PKey ; Line }
 4. Filter both maps. 
-    a. Compare hashes 
+    a. Compare hashes of records 
 5. Print unique and instances of mismatched hashes.
 6. Use the addition, deletion, modification model in the go-based csvdiff 
 
@@ -19,6 +19,7 @@ let myMap =
 
 myMap = [ HASHofKey, RECORD; HASHofKey2, RECORD2; etc ]
 Note: Use a record, instead of a list. Something like:
+BECAUSE records get hashed. 
 
 type myLine = 
     {   Key : string

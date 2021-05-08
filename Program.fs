@@ -5,10 +5,14 @@ open Csvdiff
 let main argv =
     let baseFile = ReadFile.fetchLines argv.[0]
     let deltaFile = ReadFile.fetchLines argv.[1]
+    let separator = ","
 
-    baseFile
-    |> Array.iter (fun x -> printfn "%s" x)
+    let parsedBaseFile = ParseCsv.parseLines baseFile separator
+    let parsedDeltaFile = ParseCsv.parseLines baseFile separator
 
-    deltaFile
-    |> Array.iter (fun x -> printfn "%s" x)
+    parsedBaseFile
+    |> Map.iter (fun x -> printfn "%A%A" x)
+
+    parsedDeltaFile
+    |> Map.iter (fun x -> printfn "%A%A" x)
     0 // return an integer exit code

@@ -4,6 +4,6 @@ module ReadFile =
 
     open System.IO
 
-    let fetchLines filePath =
+    let fetchLines filePath = // filename -> string array
         let rows = File.ReadAllLines filePath
         rows
