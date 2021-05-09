@@ -13,12 +13,6 @@ let main argv =
     let parsedBaseFile = ParseCsv.parseLines baseFile separator
     let parsedDeltaFile = ParseCsv.parseLines deltaFile separator
 
-    // parsedBaseFile
-    // |> Map.iter (fun x -> printfn "%A%A" x)
-
-    // parsedDeltaFile
-    // |> Map.iter (fun x -> printfn "%A%A" x)
-
     // Build line sets 
     let baseKeys = Sets.getSet parsedBaseFile |> Seq.cache
     let deltaKeys = Sets.getSet parsedDeltaFile |> Seq.cache
@@ -30,21 +24,22 @@ let main argv =
     
     // Only keep the spots in both where there 
     // are modifications
-    let modified = inBoth |> Set.filter (fun x -> parsedBaseFile.[x].Key <> parsedDeltaFile.[x].Key)
+    // let modified = inBoth |> Set.filter (fun x -> parsedBaseFile.[x].Key <> parsedDeltaFile.[x].Key)
+    let modified = inBoth |> Set.filter (fun x -> parsedBaseFile.[x] <> parsedDeltaFile.[x])
 
     // Print it
     printfn "Additions (%i)" additions.Count
     additions
-    |> Set.iter (fun x -> printfn "+ %A" parsedDeltaFile.[x].LineText)
+    |> Set.iter (fun x -> printfn "+ %A" parsedDeltaFile.[x])
 
     printfn "Removals (%i)" removals.Count
     removals
-    |> Set.iter (fun x -> printfn "- %A" parsedBaseFile.[x].LineText)
+    |> Set.iter (fun x -> printfn "- %A" parsedBaseFile.[x])
 
     printfn "Modified (%i)" modified.Count
     modified
     |> Set.iter (fun x -> 
-                    printfn "- %A" parsedBaseFile.[x].LineText
-                    printfn "+ %A" parsedDeltaFile.[x].LineText)
+                    printfn "- %A" parsedBaseFile.[x]
+                    printfn "+ %A" parsedDeltaFile.[x])
 
     0 // return an integer exit code
