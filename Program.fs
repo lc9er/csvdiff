@@ -25,7 +25,7 @@ let main argv =
     // Only keep the spots in both where there 
     // are modifications
     // let modified = inBoth |> Set.filter (fun x -> parsedBaseFile.[x].Key <> parsedDeltaFile.[x].Key)
-    let modified = inBoth |> Set.filter (fun x -> parsedBaseFile.[x] <> parsedDeltaFile.[x])
+    let modified = inBoth |> Set.filter (fun x -> parsedBaseFile.[x].GetHashCode() <> parsedDeltaFile.[x].GetHashCode())
 
     // Print it
     printfn "Additions (%i)" additions.Count
