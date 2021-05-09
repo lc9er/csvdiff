@@ -1,6 +1,6 @@
 namespace Csvdiff
 
-module ReadFile = 
+module ReadFile =
 
     open System.IO
 
