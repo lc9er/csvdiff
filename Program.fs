@@ -20,8 +20,8 @@ let main argv =
     // |> Map.iter (fun x -> printfn "%A%A" x)
 
     // Build line sets 
-    let baseKeys = Sets.getSet parsedBaseFile
-    let deltaKeys = Sets.getSet parsedDeltaFile
+    let baseKeys = Sets.getSet parsedBaseFile |> Seq.cache
+    let deltaKeys = Sets.getSet parsedDeltaFile |> Seq.cache
 
     // Get exclusive and inclusive sets
     let additions = Sets.getSetExclusive deltaKeys baseKeys

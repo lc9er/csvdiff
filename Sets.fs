@@ -8,7 +8,6 @@ module Sets =
         |> Map.toSeq
         |> Seq.map fst
 
-
     // Return a set of results exclusive to the first set
     let getSetExclusive set1 set2 =
         set set1 - set set2
