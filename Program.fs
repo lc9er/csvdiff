@@ -13,12 +13,6 @@ let main argv =
     let parsedBaseFile = ParseCsv.parseLines baseFile separator
     let parsedDeltaFile = ParseCsv.parseLines deltaFile separator
 
-    // parsedBaseFile
-    // |> Map.iter (fun x -> printfn "%A%A" x)
-
-    // parsedDeltaFile
-    // |> Map.iter (fun x -> printfn "%A%A" x)
-
     // Build line sets 
     let baseKeys = Sets.getSet parsedBaseFile |> Seq.cache
     let deltaKeys = Sets.getSet parsedDeltaFile |> Seq.cache
