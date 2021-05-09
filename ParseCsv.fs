@@ -1,9 +1,6 @@
 namespace Csvdiff
 
 module ParseCsv =
-    // Record of each line - a hash of the text for comparison
-    // and the actual text, for printing.
-    // type lineRecord = { Key: int; LineText: string }
 
     let splitLine (line: string) (separator: string) =
 

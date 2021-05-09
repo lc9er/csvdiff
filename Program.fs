@@ -1,4 +1,3 @@
-open System
 open Csvdiff
 
 [<EntryPoint>]
@@ -24,7 +23,7 @@ let main argv =
     
     // Only keep the spots in both where there 
     // are modifications
-    let modified = inBoth |> Set.filter (fun x -> parsedBaseFile.[x].GetHashCode() <> parsedDeltaFile.[x].GetHashCode())
+    let modified = inBoth |> Set.filter (fun x -> parsedBaseFile.[x] <> parsedDeltaFile.[x])
 
     // Print it
     printfn "Additions (%i)" additions.Count
