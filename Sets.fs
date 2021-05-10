@@ -1,20 +1,22 @@
 namespace Csvdiff
 
-module Sets = 
+module Sets =
 
     // Return a sequence of the map keys
     let getSet (myMap: Map<'Key, 'T>) =
 
-        myMap
-        |> Map.toSeq
-        |> Seq.map fst
+        myMap |> Map.toSeq |> Seq.map fst
 
-    // Return a set of results exclusive to the first set
+    // Return results exclusive to the first set
     let getSetExclusive set1 set2 =
 
-        set set1 - set set2
+        // set set1 - set set2
+        Seq.except set2 set1
 
-    // Return a set of results in both sets
-    let getSetBoth set1 set2 =
+    // Combine both seqs, combine both exclusive seqs, and exclude those
+    let getSetBoth set1 set2 set1ex set2ex =
 
-        Set.intersect (set set1) (set set2)
+        let combinedLines = Seq.concat [ set1; set2 ]
+        let combinedExclusives = Seq.concat [ set1ex; set2ex ]
+
+        Seq.except combinedExclusives combinedLines

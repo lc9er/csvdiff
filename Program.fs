@@ -12,32 +12,46 @@ let main argv =
     let parsedBaseFile = ParseCsv.parseLines baseFile separator
     let parsedDeltaFile = ParseCsv.parseLines deltaFile separator
 
-    // Build line sets 
+    // Build line sets
     let baseKeys = Sets.getSet parsedBaseFile |> Seq.cache
     let deltaKeys = Sets.getSet parsedDeltaFile |> Seq.cache
 
     // Get exclusive and inclusive sets
-    let additions = Sets.getSetExclusive deltaKeys baseKeys
-    let removals = Sets.getSetExclusive baseKeys deltaKeys
-    let inBoth = Sets.getSetBoth baseKeys deltaKeys
-    
-    // Only keep the spots in both where there 
+    let additions =
+        Sets.getSetExclusive deltaKeys baseKeys
+        |> Seq.cache
+
+    let removals =
+        Sets.getSetExclusive baseKeys deltaKeys
+        |> Seq.cache
+
+    let inBoth =
+        Sets.getSetBoth baseKeys deltaKeys additions removals
+        |> Seq.cache
+
+    // Only keep the spots in both where there
     // are modifications
-    let modified = inBoth |> Set.filter (fun x -> parsedBaseFile.[x] <> parsedDeltaFile.[x])
+    let modified =
+        inBoth
+        |> Seq.filter (fun x -> parsedBaseFile.[x] <> parsedDeltaFile.[x])
 
     // Print it
-    printfn "Additions (%i)" additions.Count
+    printfn "Additions (%A):" (Seq.length additions)
+
     additions
-    |> Set.iter (fun x -> printfn "+ %A" parsedDeltaFile.[x])
+    |> Seq.iter (fun x -> printfn "+ %A" parsedDeltaFile.[x])
 
-    printfn "Removals (%i)" removals.Count
+    printfn "Removals (%A):" (Seq.length removals)
+
     removals
-    |> Set.iter (fun x -> printfn "- %A" parsedBaseFile.[x])
+    |> Seq.iter (fun x -> printfn "- %A" parsedBaseFile.[x])
 
-    printfn "Modified (%i)" modified.Count
+    printfn "Modified (%A):" (Seq.length modified)
+
     modified
-    |> Set.iter (fun x -> 
-                    printfn "- %A" parsedBaseFile.[x]
-                    printfn "+ %A" parsedDeltaFile.[x])
+    |> Seq.iter
+        (fun x ->
+            printfn "- %A" parsedBaseFile.[x]
+            printfn "+ %A" parsedDeltaFile.[x])
 
     0 // return an integer exit code
