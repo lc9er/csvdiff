@@ -13,43 +13,37 @@ let main argv =
     let parsedDeltaFile = ParseCsv.parseLines deltaFile separator
 
     // Build line sets
-    let baseKeys = Sets.getSet parsedBaseFile |> Seq.cache
-    let deltaKeys = Sets.getSet parsedDeltaFile |> Seq.cache
+    let baseKeys = Sets.getSet parsedBaseFile
+    let deltaKeys = Sets.getSet parsedDeltaFile
 
     // Get exclusive and inclusive sets
-    let additions =
-        Sets.getSetExclusive deltaKeys baseKeys
-        |> Seq.cache
+    let additions = Sets.getSetExclusive deltaKeys baseKeys
 
-    let removals =
-        Sets.getSetExclusive baseKeys deltaKeys
-        |> Seq.cache
+    let removals = Sets.getSetExclusive baseKeys deltaKeys
 
-    let inBoth =
-        Sets.getSetBoth baseKeys deltaKeys additions removals
-        |> Seq.cache
+    let inBoth = Sets.getSetBoth baseKeys deltaKeys additions removals
 
     // Only keep the spots in both where there
     // are modifications
     let modified =
         inBoth
-        |> Seq.filter (fun x -> parsedBaseFile.[x] <> parsedDeltaFile.[x])
+        |> Array.filter (fun x -> parsedBaseFile.[x] <> parsedDeltaFile.[x])
 
     // Print it
-    printfn "Additions (%A):" (Seq.length additions)
+    printfn "Additions (%A):" (Array.length additions)
 
     additions
-    |> Seq.iter (fun x -> printfn "+ %A" parsedDeltaFile.[x])
+    |> Array.iter (fun x -> printfn "+ %A" parsedDeltaFile.[x])
 
-    printfn "Removals (%A):" (Seq.length removals)
+    printfn "Removals (%A):" (Array.length removals)
 
     removals
-    |> Seq.iter (fun x -> printfn "- %A" parsedBaseFile.[x])
+    |> Array.iter (fun x -> printfn "- %A" parsedBaseFile.[x])
 
-    printfn "Modified (%A):" (Seq.length modified)
+    printfn "Modified (%A):" (Array.length modified)
 
     modified
-    |> Seq.iter
+    |> Array.iter
         (fun x ->
             printfn "- %A" parsedBaseFile.[x]
             printfn "+ %A" parsedDeltaFile.[x])
