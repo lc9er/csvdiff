@@ -30,22 +30,22 @@ let main argv =
         |> Array.filter (fun x -> parsedBaseFile.[x] <> parsedDeltaFile.[x])
 
     // Print it
-    printfn "Additions (%A):" (Array.length additions)
+    printfn "Additions (%i):" additions.Length
 
     additions
-    |> Array.iter (fun x -> printfn "+ %A" parsedDeltaFile.[x])
+    |> Array.iter (fun x -> printfn "+ %s" parsedDeltaFile.[x])
 
-    printfn "Removals (%A):" (Array.length removals)
+    printfn "Removals (%i):" removals.Length
 
     removals
-    |> Array.iter (fun x -> printfn "- %A" parsedBaseFile.[x])
+    |> Array.iter (fun x -> printfn "- %s" parsedBaseFile.[x])
 
-    printfn "Modified (%A):" (Array.length modified)
+    printfn "Modified (%i):" modified.Length
 
     modified
     |> Array.iter
         (fun x ->
-            printfn "- %A" parsedBaseFile.[x]
-            printfn "+ %A" parsedDeltaFile.[x])
+            printfn "- %s" parsedBaseFile.[x]
+            printfn "+ %s" parsedDeltaFile.[x])
 
     0 // return an integer exit code
