@@ -9,8 +9,8 @@ DONE 4. Filter both maps.
 DONE     a. Compare hashes of records   
 DONE 5. Print unique and instances of mismatched hashes.  
 DONE 6. Use the addition, deletion, modification model in the go-based csvdiff   
-7. Output formatting/coloring.  
-8. Compound primary keys.  
-9. Argument handling.  
+7. Argument handling.  
+8. Output formatting/coloring.  
+9. Compound primary keys.  
   
 Reference: https://aswinkarthik.github.io/csvdiff/  
