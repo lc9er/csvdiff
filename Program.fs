@@ -48,7 +48,7 @@ let main argv =
                     Format.printFormattedResults line "red")
 
     // printfn "Modified (%i):" modified.Length
-    let mods = "Modified (" + removals.Length.ToString() + "):"
+    let mods = "Modified (" +  modified.Length.ToString() + "):"
     Format.printFormattedResults mods "blue"
 
     modified
