@@ -22,13 +22,12 @@ let main argv =
     let removals = Sets.getSetExclusive baseKeys deltaKeys
     let inBoth = Sets.getSetBoth baseKeys deltaKeys additions removals
 
-    // Only keep the spots in both where there
-    // are modifications
+    // Keep lines where keys match but values don't
     let modified =
         inBoth
         |> Array.filter (fun x -> parsedBaseFile.[x] <> parsedDeltaFile.[x])
 
-    // Print it
+    //// Print it
     //
     // Additions
     let adds = "Additions (" + additions.Length.ToString() + "):"
@@ -60,5 +59,6 @@ let main argv =
             Format.printFormattedResults origLine "red"
             Format.printFormattedResults modLine "green")
 
+    // Reset the console, or everything will print in the last color
     Console.ResetColor()
     0 // return an integer exit code
