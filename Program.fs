@@ -29,7 +29,8 @@ let main argv =
         |> Array.filter (fun x -> parsedBaseFile.[x] <> parsedDeltaFile.[x])
 
     // Print it
-    // printfn "Additions (%i):" additions.Length
+    //
+    // Additions
     let adds = "Additions (" + additions.Length.ToString() + "):"
     Format.printFormattedResults adds "blue"
 
@@ -38,7 +39,7 @@ let main argv =
                     let line = "+ " + parsedDeltaFile.[x]
                     Format.printFormattedResults line "green")
 
-    // printfn "Removals (%i):" removals.Length
+    // Deletions
     let dels = "Removals (" + removals.Length.ToString() + "):"
     Format.printFormattedResults dels "blue"
 
@@ -47,14 +48,17 @@ let main argv =
                     let line  = "- " + parsedBaseFile.[x]
                     Format.printFormattedResults line "red")
 
-    // printfn "Modified (%i):" modified.Length
+    // Modifications
     let mods = "Modified (" +  modified.Length.ToString() + "):"
     Format.printFormattedResults mods "blue"
 
     modified
     |> Array.iter
         (fun x ->
-            printfn "- %s" parsedBaseFile.[x]
-            printfn "+ %s" parsedDeltaFile.[x])
+            let origLine = "- " + parsedBaseFile.[x]
+            let modLine =  "+ " + parsedDeltaFile.[x]
+            Format.printFormattedResults origLine "red"
+            Format.printFormattedResults modLine "green")
 
+    Console.ResetColor()
     0 // return an integer exit code
