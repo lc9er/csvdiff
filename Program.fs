@@ -1,3 +1,4 @@
+open System
 open Csvdiff
 
 [<EntryPoint>]
@@ -18,9 +19,7 @@ let main argv =
 
     // Get exclusive and inclusive sets
     let additions = Sets.getSetExclusive deltaKeys baseKeys
-
     let removals = Sets.getSetExclusive baseKeys deltaKeys
-
     let inBoth = Sets.getSetBoth baseKeys deltaKeys additions removals
 
     // Only keep the spots in both where there
@@ -30,17 +29,27 @@ let main argv =
         |> Array.filter (fun x -> parsedBaseFile.[x] <> parsedDeltaFile.[x])
 
     // Print it
-    printfn "Additions (%i):" additions.Length
+    // printfn "Additions (%i):" additions.Length
+    let adds = "Additions (" + additions.Length.ToString() + "):"
+    Format.printFormattedResults adds "blue"
 
     additions
-    |> Array.iter (fun x -> printfn "+ %s" parsedDeltaFile.[x])
+    |> Array.iter (fun x -> 
+                    let line = "+ " + parsedDeltaFile.[x]
+                    Format.printFormattedResults line "green")
 
-    printfn "Removals (%i):" removals.Length
+    // printfn "Removals (%i):" removals.Length
+    let dels = "Removals (" + removals.Length.ToString() + "):"
+    Format.printFormattedResults dels "blue"
 
     removals
-    |> Array.iter (fun x -> printfn "- %s" parsedBaseFile.[x])
+    |> Array.iter (fun x -> 
+                    let line  = "- " + parsedBaseFile.[x]
+                    Format.printFormattedResults line "red")
 
-    printfn "Modified (%i):" modified.Length
+    // printfn "Modified (%i):" modified.Length
+    let mods = "Modified (" + removals.Length.ToString() + "):"
+    Format.printFormattedResults mods "blue"
 
     modified
     |> Array.iter

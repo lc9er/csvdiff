@@ -9,6 +9,7 @@
     <Compile Include="File.fs" />
     <Compile Include="ParseCsv.fs" />
     <Compile Include="Sets.fs" />
+    <Compile Include="Format.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
