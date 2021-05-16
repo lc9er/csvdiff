@@ -1,21 +1,15 @@
 open System
-open Argu
 open Csvdiff
 
-type CliArgs =
-    {
-        OldFile: string
-        NewFile: string
-    }
 [<EntryPoint>]
 let main argv =
 
     // Setup
-    let myArgs = { OldFile = argv.[0]; NewFile = argv.[1] }
-    printfn "OldFile: %A, NewFile: %A" myArgs.OldFile myArgs.NewFile
+    let myArgs = CliArgs.getArgs argv
+    printfn "OldFile: %A, NewFile: %A, Separator: %A" myArgs.OldFile myArgs.NewFile myArgs.Separator
     let baseFile = ReadFile.fetchLines myArgs.OldFile
     let deltaFile = ReadFile.fetchLines myArgs.NewFile
-    let separator = ","
+    let separator = myArgs.Separator
     // let primary = 0
 
     // Parse data into a map

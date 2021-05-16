@@ -2,13 +2,13 @@ namespace Csvdiff
 
 module ParseCsv =
 
-    let splitLine (line: string) (separator: string) =
+    let splitLine (line: string) (separator: char) =
 
         let pKey = line.Split(separator).[0]
         pKey.GetHashCode(), line
 
-    let parseLines (fileLines: string []) (separator: string) =
+    let parseLines (fileLines: string []) (separator: char) =
 
         fileLines
-        |> Array.map (fun x -> splitLine x separator)
+        |> Array.map (fun line -> splitLine line separator)
         |> Map.ofArray
