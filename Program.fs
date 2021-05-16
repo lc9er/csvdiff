@@ -5,7 +5,7 @@ open Csvdiff
 let main argv =
 
     // Setup
-    let myArgs = CliArgs.getArgs argv
+    let myArgs = CliArgs.getArgs (argv |> Array.toList)
     printfn "OldFile: %A, NewFile: %A, Separator: %A" myArgs.OldFile myArgs.NewFile myArgs.Separator
     let baseFile = ReadFile.fetchLines myArgs.OldFile
     let deltaFile = ReadFile.fetchLines myArgs.NewFile
