@@ -20,5 +20,5 @@ module Format =
 
         printfn "%s" line
 
-        // Console.ForegroundColor <- defaultColor
-        // Console.ResetColor()
+// Console.ForegroundColor <- defaultColor
+// Console.ResetColor()
