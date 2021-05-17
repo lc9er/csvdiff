@@ -9,11 +9,11 @@ module CliArgs =
           PrimaryKey: list<int>
           ExcludeFields: list<int> }
 
-    let findArg argv param =
-        argv |> List.tryFindIndex (fun x -> x = param)
+    let findArg argv flag =
+        argv |> List.tryFindIndex (fun x -> x = flag)
 
-    let splitArgString (param: string) =
-        param.Split ','
+    let splitArgString (flag: string) =
+        flag.Split ','
         |> Array.map (fun x -> x |> int)
         |> Array.toList
 
