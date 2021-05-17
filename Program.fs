@@ -7,13 +7,13 @@ let main argv =
     // Setup
     let myArgs = CliArgs.getArgs (argv |> Array.toList)
 
-    printfn
-        "OldFile: %A, NewFile: %A, Separator: %A, PK: %A, ExcludeFields: %A"
-        myArgs.OldFile
-        myArgs.NewFile
-        myArgs.Separator
-        myArgs.PrimaryKey
-        myArgs.ExcludeFields
+    // printfn
+    //     "OldFile: %A, NewFile: %A, Separator: %A, PK: %A, ExcludeFields: %A"
+    //     myArgs.OldFile
+    //     myArgs.NewFile
+    //     myArgs.Separator
+    //     myArgs.PrimaryKey
+    //     myArgs.ExcludeFields
 
     let baseFile = ReadFile.fetchLines myArgs.OldFile
     let deltaFile = ReadFile.fetchLines myArgs.NewFile
