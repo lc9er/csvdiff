@@ -6,15 +6,15 @@ let main argv =
 
     // Setup
     let myArgs = CliArgs.getArgs (argv |> Array.toList)
-    printfn "OldFile: %A, NewFile: %A, Separator: %A" myArgs.OldFile myArgs.NewFile myArgs.Separator
+    printfn "OldFile: %A, NewFile: %A, Separator: %A, PK: %A" myArgs.OldFile myArgs.NewFile myArgs.Separator myArgs.PrimaryKey
     let baseFile = ReadFile.fetchLines myArgs.OldFile
     let deltaFile = ReadFile.fetchLines myArgs.NewFile
     let separator = myArgs.Separator
-    // let primary = 0
+    let primary = myArgs.PrimaryKey
 
     // Parse data into a map
-    let parsedBaseFile = ParseCsv.parseLines baseFile separator
-    let parsedDeltaFile = ParseCsv.parseLines deltaFile separator
+    let parsedBaseFile = ParseCsv.parseLines baseFile separator primary 
+    let parsedDeltaFile = ParseCsv.parseLines deltaFile separator primary
 
     // Build line sets
     let baseKeys = Sets.getSet parsedBaseFile
