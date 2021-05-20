@@ -2,13 +2,15 @@ namespace Csvdiff
 
 module CliArgs =
 
+    /// Args record
     type CsvArgs =
         { OldFile: string
           NewFile: string
           Separator: char
           PrimaryKey: list<int>
-          ExcludeFields: list<int> }
+          ModFields: string * list<int> }
 
+    /// Parse argv for a flag
     let findArg argv flag =
         argv |> List.tryFindIndex (fun x -> x = flag)
 
@@ -17,6 +19,7 @@ module CliArgs =
         |> Array.map (fun x -> x |> int)
         |> Array.toList
 
+    /// default = ','. Return as character tp allow for `t etc
     let getSeparator (argv: list<string>) =
         let myArg = findArg argv "-s"
 
@@ -36,8 +39,19 @@ module CliArgs =
 
     let getArgs (argv: list<string>) =
 
+        /// Check for include/exclude here
+        /// If both present, ignore exclusions
+        /// if includeFields returns []
+        /// then proceed with excludeFields
+        let fields =
+            let includeFields = getFields argv "-i"
+
+            match includeFields with
+            | [] -> ("-e", getFields argv "-e")
+            | _ -> ("-i", includeFields)
+
         { OldFile = argv.[0]
           NewFile = argv.[1]
           Separator = getSeparator argv
           PrimaryKey = getFields argv "-p"
-          ExcludeFields = getFields argv "-e" }
+          ModFields = fields }

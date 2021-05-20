@@ -19,7 +19,7 @@ let main argv =
     let deltaFile = ReadFile.fetchLines myArgs.NewFile
     let separator = myArgs.Separator
     let primary = myArgs.PrimaryKey
-    let exclude = myArgs.ExcludeFields
+    let exclude = myArgs.ModFields
 
     // Parse data into a map
     let parsedBaseFile =

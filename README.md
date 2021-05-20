@@ -2,7 +2,7 @@
   
 DONE 1. Read in two csv files.  
 DONE 2a. Exclude  
-2b. Include fields.  
+DONE 2b. Include fields.  
 DONE 3. Create map  
 DONE    a. Key = primary key (1st column default. Can specify one or more.)  
 DONE     b. Value = { PKey ; Line }  
