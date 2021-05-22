@@ -60,39 +60,39 @@ let main argv =
         let adds =
             "Additions (" + additions.Length.ToString() + "):"
 
-        printFormattedResults adds "header"
+        printFormattedResults adds Header
 
         additions
         |> Array.iter
             (fun x ->
                 let line = "+ " + parsedDeltaFile.[x]
-                printFormattedResults line "add")
+                printFormattedResults line Addition)
 
         // Deletions
         let dels =
             "Removals (" + removals.Length.ToString() + "):"
 
-        printFormattedResults dels "header"
+        printFormattedResults dels Header
 
         removals
         |> Array.iter
             (fun x ->
                 let line = "- " + parsedBaseFile.[x]
-                printFormattedResults line "delete")
+                printFormattedResults line Deletion)
 
         // Modifications
         let mods =
             "Modified (" + modified.Length.ToString() + "):"
 
-        printFormattedResults mods "header"
+        printFormattedResults mods Header
 
         modified
         |> Array.iter
             (fun x ->
                 let origLine = "- " + parsedBaseFile.[x]
                 let modLine = "+ " + parsedDeltaFile.[x]
-                printFormattedResults origLine "delete"
-                printFormattedResults modLine "add")
+                printFormattedResults origLine Deletion
+                printFormattedResults modLine Addition)
 
         // Reset the console, or everything will print in the last color
         Console.ResetColor()
