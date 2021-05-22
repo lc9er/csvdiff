@@ -8,7 +8,6 @@ module Format =
         let headerColor = ConsoleColor.Blue
         let additionColor = ConsoleColor.Green
         let deletionColor = ConsoleColor.Red
-        let defaultColor = ConsoleColor.White
 
         let consoleColor =
             match color with

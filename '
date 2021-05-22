@@ -1,39 +1,35 @@
 open System
 open Csvdiff
 open CliArgs
-open ReadFile
-open ParseCsv
-open Sets
-open Format
 
 [<EntryPoint>]
 let main argv =
 
     // Setup
-    let myArgs = getArgs (argv |> Array.toList)
-    let baseFile = fetchLines myArgs.OldFile
-    let deltaFile = fetchLines myArgs.NewFile
+    let myArgs = CliArgs.getArgs (argv |> Array.toList)
+    let baseFile = ReadFile.fetchLines myArgs.OldFile
+    let deltaFile = ReadFile.fetchLines myArgs.NewFile
     let separator = myArgs.Separator
     let primary = myArgs.PrimaryKey
     let exclude = myArgs.ModFields
 
     // Parse data into a map
     let parsedBaseFile =
-        parseLines baseFile separator primary exclude
+        ParseCsv.parseLines baseFile separator primary exclude
 
     let parsedDeltaFile =
-        parseLines deltaFile separator primary exclude
+        ParseCsv.parseLines deltaFile separator primary exclude
 
     // Build line sets
-    let baseKeys = getSet parsedBaseFile
-    let deltaKeys = getSet parsedDeltaFile
+    let baseKeys = Sets.getSet parsedBaseFile
+    let deltaKeys = Sets.getSet parsedDeltaFile
 
     // Get exclusive and inclusive sets
-    let additions = getSetExclusive deltaKeys baseKeys
-    let removals = getSetExclusive baseKeys deltaKeys
+    let additions = Sets.getSetExclusive deltaKeys baseKeys
+    let removals = Sets.getSetExclusive baseKeys deltaKeys
 
     let inBoth =
-        getSetBoth baseKeys deltaKeys additions removals
+        Sets.getSetBoth baseKeys deltaKeys additions removals
 
     // Keep lines where keys match but values don't
     let modified =
@@ -46,39 +42,39 @@ let main argv =
     let adds =
         "Additions (" + additions.Length.ToString() + "):"
 
-    printFormattedResults adds "blue"
+    Format.printFormattedResults adds "blue"
 
     additions
     |> Array.iter
         (fun x ->
             let line = "+ " + parsedDeltaFile.[x]
-            printFormattedResults line "green")
+            Format.printFormattedResults line "green")
 
     // Deletions
     let dels =
         "Removals (" + removals.Length.ToString() + "):"
 
-    printFormattedResults dels "blue"
+    Format.printFormattedResults dels "blue"
 
     removals
     |> Array.iter
         (fun x ->
             let line = "- " + parsedBaseFile.[x]
-            printFormattedResults line "red")
+            Format.printFormattedResults line "red")
 
     // Modifications
     let mods =
         "Modified (" + modified.Length.ToString() + "):"
 
-    printFormattedResults mods "blue"
+    Format.printFormattedResults mods "blue"
 
     modified
     |> Array.iter
         (fun x ->
             let origLine = "- " + parsedBaseFile.[x]
             let modLine = "+ " + parsedDeltaFile.[x]
-            printFormattedResults origLine "red"
-            printFormattedResults modLine "green")
+            Format.printFormattedResults origLine "red"
+            Format.printFormattedResults modLine "green")
 
     // Reset the console, or everything will print in the last color
     Console.ResetColor()
