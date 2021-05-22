@@ -1,5 +1,6 @@
 open System
 open Csvdiff
+open HelpVersion
 open CliArgs
 open ReadFile
 open ParseCsv
@@ -9,77 +10,90 @@ open Format
 [<EntryPoint>]
 let main argv =
 
-    // Setup
-    let myArgs = getArgs (argv |> Array.toList)
-    let baseFile = fetchLines myArgs.OldFile
-    let deltaFile = fetchLines myArgs.NewFile
-    let separator = myArgs.Separator
-    let primary = myArgs.PrimaryKey
-    let fields = myArgs.ModFields
+    let argvList = (argv |> Array.toList)
+    let help = findArg argvList "-h"
+    let version = findArg argvList "-v"
 
-    // Parse data into a map
-    let parsedBaseFile =
-        parseLines baseFile separator primary fields
+    // if help or version exist, print and exit
+    match (help, version) with
+    | (Some (_), _) ->
+        printfn "%s" getCsvdiffHelp
+        1
+    | (_, Some (_)) ->
+        printfn "%s" getCsvdiffVersion
+        2
+    | _ ->
+        // Setup
+        let myArgs = getArgs argvList
+        let baseFile = fetchLines myArgs.OldFile
+        let deltaFile = fetchLines myArgs.NewFile
+        let separator = myArgs.Separator
+        let primary = myArgs.PrimaryKey
+        let fields = myArgs.ModFields
 
-    let parsedDeltaFile =
-        parseLines deltaFile separator primary fields
+        // Parse data into a map
+        let parsedBaseFile =
+            parseLines baseFile separator primary fields
 
-    // Build line sets
-    let baseKeys = getSet parsedBaseFile
-    let deltaKeys = getSet parsedDeltaFile
+        let parsedDeltaFile =
+            parseLines deltaFile separator primary fields
 
-    // Get exclusive and inclusive sets
-    let additions = getSetExclusive deltaKeys baseKeys
-    let removals = getSetExclusive baseKeys deltaKeys
+        // Build line sets
+        let baseKeys = getSet parsedBaseFile
+        let deltaKeys = getSet parsedDeltaFile
 
-    let inBoth =
-        getSetBoth baseKeys deltaKeys additions removals
+        // Get exclusive and inclusive sets
+        let additions = getSetExclusive deltaKeys baseKeys
+        let removals = getSetExclusive baseKeys deltaKeys
 
-    // Keep lines where keys match but values don't
-    let modified =
-        inBoth
-        |> Array.filter (fun x -> parsedBaseFile.[x] <> parsedDeltaFile.[x])
+        let inBoth =
+            getSetBoth baseKeys deltaKeys additions removals
 
-    // Print it
-    //
-    // Additions
-    let adds =
-        "Additions (" + additions.Length.ToString() + "):"
+        // Keep lines where keys match but values don't
+        let modified =
+            inBoth
+            |> Array.filter (fun x -> parsedBaseFile.[x] <> parsedDeltaFile.[x])
 
-    printFormattedResults adds "blue"
+        // Print it
+        //
+        // Additions
+        let adds =
+            "Additions (" + additions.Length.ToString() + "):"
 
-    additions
-    |> Array.iter
-        (fun x ->
-            let line = "+ " + parsedDeltaFile.[x]
-            printFormattedResults line "green")
+        printFormattedResults adds "blue"
 
-    // Deletions
-    let dels =
-        "Removals (" + removals.Length.ToString() + "):"
+        additions
+        |> Array.iter
+            (fun x ->
+                let line = "+ " + parsedDeltaFile.[x]
+                printFormattedResults line "green")
 
-    printFormattedResults dels "blue"
+        // Deletions
+        let dels =
+            "Removals (" + removals.Length.ToString() + "):"
 
-    removals
-    |> Array.iter
-        (fun x ->
-            let line = "- " + parsedBaseFile.[x]
-            printFormattedResults line "red")
+        printFormattedResults dels "blue"
 
-    // Modifications
-    let mods =
-        "Modified (" + modified.Length.ToString() + "):"
+        removals
+        |> Array.iter
+            (fun x ->
+                let line = "- " + parsedBaseFile.[x]
+                printFormattedResults line "red")
 
-    printFormattedResults mods "blue"
+        // Modifications
+        let mods =
+            "Modified (" + modified.Length.ToString() + "):"
 
-    modified
-    |> Array.iter
-        (fun x ->
-            let origLine = "- " + parsedBaseFile.[x]
-            let modLine = "+ " + parsedDeltaFile.[x]
-            printFormattedResults origLine "red"
-            printFormattedResults modLine "green")
+        printFormattedResults mods "blue"
 
-    // Reset the console, or everything will print in the last color
-    Console.ResetColor()
-    0 // return an integer exit code
+        modified
+        |> Array.iter
+            (fun x ->
+                let origLine = "- " + parsedBaseFile.[x]
+                let modLine = "+ " + parsedDeltaFile.[x]
+                printFormattedResults origLine "red"
+                printFormattedResults modLine "green")
+
+        // Reset the console, or everything will print in the last color
+        Console.ResetColor()
+        0 // return an integer exit code
