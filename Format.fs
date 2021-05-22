@@ -3,19 +3,26 @@ namespace Csvdiff
 module Format =
     open System
 
+    type PrintColor =
+        | Header
+        | Addition
+        | Deletion
+
+        member this.ApplyColor =
+            match this with
+            | Addition -> ConsoleColor.Green
+            | Deletion -> ConsoleColor.Red
+            | Header -> ConsoleColor.Blue
+        
     /// Print line, with appropriate color scheme
     let printFormattedResults line color =
-
-        let headerColor = ConsoleColor.Blue
-        let additionColor = ConsoleColor.Green
-        let deletionColor = ConsoleColor.Red
-
+        
         let consoleColor =
             match color with
-            | "blue" -> headerColor
-            | "red" -> deletionColor
-            | _ -> additionColor
+            | "add" -> Addition
+            | "delete" -> Deletion
+            | _ -> Header
 
-        Console.ForegroundColor <- consoleColor
+        Console.ForegroundColor <- consoleColor.ApplyColor
 
         printfn "%s" line
