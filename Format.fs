@@ -3,6 +3,7 @@ namespace Csvdiff
 module Format =
     open System
 
+    /// Print line, with appropriate color scheme
     let printFormattedResults line color =
 
         let headerColor = ConsoleColor.Blue
@@ -18,6 +19,3 @@ module Format =
         Console.ForegroundColor <- consoleColor
 
         printfn "%s" line
-
-// Console.ForegroundColor <- defaultColor
-// Console.ResetColor()
