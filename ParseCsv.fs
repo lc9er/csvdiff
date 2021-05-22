@@ -2,6 +2,9 @@ namespace Csvdiff
 
 module ParseCsv =
 
+    /// create a list, using the include/exclude index fields
+    let buildList (fields: array<string>) = List.map (fun x -> fields.[x])
+
     /// splitLine, given separator. Build pkey and include/exclude fields
     /// This should probably be split into smaller chunks
     let splitLine (line: string) (separator: char) (pKeyFields: list<int>) (modFields: string * list<int>) =
@@ -13,7 +16,8 @@ module ParseCsv =
             match modFields with
             | (_, extractFields) ->
                 extractFields
-                |> List.map (fun x -> fields.[x])
+                // |> List.map (fun x -> fields.[x])
+                |> buildList fields
                 |> Array.ofList
 
         /// If include, use lineCapture
@@ -32,7 +36,8 @@ module ParseCsv =
         /// but not printed
         let pKey =
             pKeyFields
-            |> List.map (fun x -> fields.[x])
+            // |> List.map (fun x -> fields.[x])
+            |> buildList fields
             |> String.concat ""
 
         pKey.GetHashCode(), modLine

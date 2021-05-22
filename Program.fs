@@ -15,14 +15,14 @@ let main argv =
     let deltaFile = fetchLines myArgs.NewFile
     let separator = myArgs.Separator
     let primary = myArgs.PrimaryKey
-    let exclude = myArgs.ModFields
+    let fields = myArgs.ModFields
 
     // Parse data into a map
     let parsedBaseFile =
-        parseLines baseFile separator primary exclude
+        parseLines baseFile separator primary fields
 
     let parsedDeltaFile =
-        parseLines deltaFile separator primary exclude
+        parseLines deltaFile separator primary fields
 
     // Build line sets
     let baseKeys = getSet parsedBaseFile
@@ -40,7 +40,7 @@ let main argv =
         inBoth
         |> Array.filter (fun x -> parsedBaseFile.[x] <> parsedDeltaFile.[x])
 
-    //// Print it
+    // Print it
     //
     // Additions
     let adds =
