@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="HelpVersion.fs" />
     <Compile Include="Args.fs" />
     <Compile Include="File.fs" />
     <Compile Include="ParseCsv.fs" />
