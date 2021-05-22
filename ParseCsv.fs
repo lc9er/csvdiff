@@ -40,7 +40,8 @@ module ParseCsv =
             |> buildList fields
             |> String.concat ""
 
-        pKey.GetHashCode(), modLine
+        // Return Map entry
+        pKey, modLine
 
     let parseLines (fileLines: string []) (separator: char) (pKeyFields: list<int>) (modFields: string * list<int>) =
 
