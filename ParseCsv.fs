@@ -7,9 +7,9 @@ module ParseCsv =
 
     /// splitLine, given separator. Build pkey and include/exclude fields
     /// This should probably be split into smaller chunks
-    let splitLine (line: string) (separator: char) (pKeyFields: array<int>) (modFields: string * array<int>) =
+    let splitLine (line: FSharp.Data.CsvRow) (separator: string) (pKeyFields: array<int>) (modFields: string * array<int>) =
 
-        let fields = line.Split(separator)
+        let fields = line.Columns
 
         /// capture the fields to include/exclude
         let lineCapture =
@@ -40,8 +40,8 @@ module ParseCsv =
         // Return Map entry
         pKey, modLine
 
-    let parseLines (fileLines: string []) (separator: char) (pKeyFields: array<int>) (modFields: string * array<int>) =
+    let parseLines (fileLines: seq<FSharp.Data.CsvRow>) (separator: string) (pKeyFields: array<int>) (modFields: string * array<int>) =
 
         fileLines
-        |> Array.map (fun line -> splitLine line separator pKeyFields modFields)
-        |> Map.ofArray
+        |> Seq.map (fun line -> splitLine line separator pKeyFields modFields)
+        |> Map.ofSeq

@@ -6,7 +6,7 @@ module CliArgs =
     type CsvArgs =
         { OldFile: string
           NewFile: string
-          Separator: char
+          Separator: string
           PrimaryKey: array<int>
           ModFields: string * array<int> }
 
@@ -23,8 +23,8 @@ module CliArgs =
         let myArg = findArg argv "-s"
 
         match myArg with
-        | Some i -> argv.[(Some(i + 1)).Value] |> char
-        | None -> ','
+        | Some i -> argv.[(Some(i + 1)).Value]
+        | None -> ","
 
     let getFields (argv: array<string>) flag =
         let myArg = findArg argv flag

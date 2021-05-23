@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="Argu" Version="6.1.1" />
+    <PackageReference Include="FSharp.Data" Version="4.1.1" />
   </ItemGroup>
 
 </Project>
