@@ -18,10 +18,6 @@ module Format =
     let printFormattedResults line (color : PrintColor) =
         
         let consoleColor = color 
-            // match color with
-            // | "add" -> Addition
-            // | "delete" -> Deletion
-            // | _ -> Header
 
         Console.ForegroundColor <- consoleColor.ApplyColor
 

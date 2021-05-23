@@ -10,7 +10,7 @@ open Format
 [<EntryPoint>]
 let main argv =
 
-    let argvList = (argv |> Array.toList)
+    let argvList = argv
     let help = findArg argvList "-h"
     let version = findArg argvList "-v"
 

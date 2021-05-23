@@ -7,37 +7,36 @@ module CliArgs =
         { OldFile: string
           NewFile: string
           Separator: char
-          PrimaryKey: list<int>
-          ModFields: string * list<int> }
+          PrimaryKey: array<int>
+          ModFields: string * array<int> }
 
     /// Parse argv for a flag
     let findArg argv flag =
-        argv |> List.tryFindIndex (fun x -> x = flag)
+        argv |> Array.tryFindIndex (fun x -> x = flag)
 
     let splitArgString (flag: string) =
         flag.Split ','
         |> Array.map (fun x -> x |> int)
-        |> Array.toList
 
     /// default = ','. Return as character tp allow for `t etc
-    let getSeparator (argv: list<string>) =
+    let getSeparator (argv: array<string>) =
         let myArg = findArg argv "-s"
 
         match myArg with
         | Some i -> argv.[(Some(i + 1)).Value] |> char
         | None -> ','
 
-    let getFields (argv: list<string>) flag =
+    let getFields (argv: array<string>) flag =
         let myArg = findArg argv flag
 
         match myArg with
         | Some i -> splitArgString argv.[(Some(i + 1)).Value]
         | None ->
             match flag with
-            | "-p" -> [ 0 ]
-            | _ -> []
+            | "-p" -> [| 0 |]
+            | _ -> [||]
 
-    let getArgs (argv: list<string>) =
+    let getArgs (argv: array<string>) =
 
         /// Check for include/exclude here
         /// If both present, ignore exclusions
@@ -47,7 +46,7 @@ module CliArgs =
             let includeFields = getFields argv "-i"
 
             match includeFields with
-            | [] -> ("-e", getFields argv "-e")
+            | [||] -> ("-e", getFields argv "-e")
             | _ -> ("-i", includeFields)
 
         { OldFile = argv.[0]
