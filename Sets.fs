@@ -13,10 +13,12 @@ module Sets =
         // set set1 - set set2
         Array.except set2 set1
 
-    /// Combine both seqs, combine both exclusive seqs, and exclude those
-    let getSetBoth set1 set2 set1ex set2ex =
+    /// combine two sets
+    let getCombinedSet set1 set2 =
 
-        let combinedLines = Array.concat [ set1; set2 ]
-        let combinedExclusives = Array.concat [ set1ex; set2ex ]
+        Array.concat [ set1; set2 ]
+
+    /// Combine both seqs, combine both exclusive seqs, and exclude those
+    let getSetBoth combinedExclusives combinedLines =
 
         Array.except combinedExclusives combinedLines

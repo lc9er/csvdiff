@@ -14,9 +14,7 @@ module ParseCsv =
         /// capture the fields to include/exclude
         let lineCapture =
             match modFields with
-            | (_, extractFields) ->
-                extractFields
-                |> buildList fields
+            | (_, extractFields) -> extractFields |> buildList fields
 
         /// If include, use lineCapture
         /// If exclude, use everything except lineCapture
@@ -28,20 +26,11 @@ module ParseCsv =
                 |> Array.except lineCapture
                 |> String.concat (separator |> string)
 
-
         /// build pKey off of unedited fields list
-        /// this allows excluded fields to be used, 
+        /// this allows excluded fields to be used,
         /// but not printed
         let pKey =
-            pKeyFields
-            |> buildList fields
-            |> String.concat ""
+            pKeyFields |> buildList fields |> String.concat ""
 
         // Return Map entry
         pKey, modLine
-
-    let parseLines (fileLines: string []) (separator: char) (pKeyFields: array<int>) (modFields: string * array<int>) =
-
-        fileLines
-        |> Array.map (fun line -> splitLine line separator pKeyFields modFields)
-        |> Map.ofArray

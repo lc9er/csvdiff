@@ -3,7 +3,6 @@ open Csvdiff
 open HelpVersion
 open CliArgs
 open ReadFile
-open ParseCsv
 open Sets
 open Format
 
@@ -25,18 +24,15 @@ let main argv =
     | _ ->
         // Setup
         let myArgs = getArgs argvList
-        let baseFile = fetchLines myArgs.OldFile
-        let deltaFile = fetchLines myArgs.NewFile
         let separator = myArgs.Separator
         let primary = myArgs.PrimaryKey
         let fields = myArgs.ModFields
 
-        // Parse data into a map
         let parsedBaseFile =
-            parseLines baseFile separator primary fields
+            fetchLines myArgs.OldFile separator primary fields
 
         let parsedDeltaFile =
-            parseLines deltaFile separator primary fields
+            fetchLines myArgs.NewFile separator primary fields
 
         // Build line sets
         let baseKeys = getSet parsedBaseFile
@@ -46,8 +42,11 @@ let main argv =
         let additions = getSetExclusive deltaKeys baseKeys
         let removals = getSetExclusive baseKeys deltaKeys
 
+        let combinedLines = getCombinedSet baseKeys deltaKeys
+        let combinedExclusives = getCombinedSet additions removals
+
         let inBoth =
-            getSetBoth baseKeys deltaKeys additions removals
+            getSetBoth combinedExclusives combinedLines
 
         // Keep lines where keys match but values don't
         let modified =
