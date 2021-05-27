@@ -26,4 +26,5 @@
 
 ## Reference: https://aswinkarthik.github.io/csvdiff/  
 
-The reference implementation is much faster for large datasets. 5x+ faster.
+The reference implementation is much faster for large datasets. A good 5x+ faster. This is a playground to help me
+learn F#.
