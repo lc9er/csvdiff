@@ -3,11 +3,13 @@ namespace Csvdiff
 module ReadFile =
 
     open System.IO
+    open FSharp.Data
 
     /// return the lines from the csv file
-    let fetchLines filePath = // filename -> string array
+    let fetchLines filePath separator =
 
         if File.Exists filePath then
-            File.ReadAllLines filePath
+            let csv = CsvFile.Load( __SOURCE_DIRECTORY__ + filePath, (separator |> string ))
+            csv.Rows
         else
             failwith filePath

@@ -26,17 +26,17 @@ let main argv =
     | _ ->
         // Setup
         let myArgs = getArgs argvList
-        let baseFile = fetchLines myArgs.OldFile
-        let deltaFile = fetchLines myArgs.NewFile
         let separator = myArgs.Separator
+        let baseFile = fetchLines myArgs.OldFile separator
+        let deltaFile = fetchLines myArgs.NewFile separator
         let primary = myArgs.PrimaryKey
         let fields = myArgs.ModFields
 
         // Parse data into a map
-        let (parsedBaseFile : IReadOnlyDictionary<int,string>) =
+        let (parsedBaseFile: IReadOnlyDictionary<int, string>) =
             parseLines baseFile separator primary fields
 
-        let (parsedDeltaFile : IReadOnlyDictionary<int,string>) =
+        let (parsedDeltaFile: IReadOnlyDictionary<int, string>) =
             parseLines deltaFile separator primary fields
 
         // Build line sets

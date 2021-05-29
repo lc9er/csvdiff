@@ -2,21 +2,20 @@ namespace Csvdiff
 
 module ParseCsv =
 
+    open FSharp.Data
     /// create a list, using the include/exclude index fields
     let buildList (fields: array<string>) = Array.map (fun x -> fields.[x])
 
     /// splitLine, given separator. Build pkey and include/exclude fields
     /// This should probably be split into smaller chunks
-    let splitLine (line: string) (separator: char) (pKeyFields: array<int>) (modFields: string * array<int>) =
+    let splitLine (line: CsvRow) (separator: char) (pKeyFields: array<int>) (modFields: string * array<int>) =
 
-        let fields = line.Split(separator)
+        let fields = line.Columns
 
         /// capture the fields to include/exclude
         let lineCapture =
             match modFields with
-            | (_, extractFields) ->
-                extractFields
-                |> buildList fields
+            | (_, extractFields) -> extractFields |> buildList fields
 
         /// If include, use lineCapture
         /// If exclude, use everything except lineCapture
@@ -30,18 +29,21 @@ module ParseCsv =
 
 
         /// build pKey off of unedited fields list
-        /// this allows excluded fields to be used, 
+        /// this allows excluded fields to be used,
         /// but not printed
         let pKey =
-            pKeyFields
-            |> buildList fields
-            |> String.concat ""
+            pKeyFields |> buildList fields |> String.concat ""
 
         // Return Map entry
         hash pKey, modLine
 
-    let parseLines (fileLines: string []) (separator: char) (pKeyFields: array<int>) (modFields: string * array<int>) =
+    let parseLines
+        (fileLines: seq<FSharp.Data.CsvRow>)
+        (separator: char)
+        (pKeyFields: array<int>)
+        (modFields: string * array<int>)
+        =
 
         fileLines
-        |> Array.map (fun line -> splitLine line separator pKeyFields modFields)
+        |> Seq.map (fun line -> splitLine line separator pKeyFields modFields)
         |> readOnlyDict
