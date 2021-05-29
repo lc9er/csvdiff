@@ -1,4 +1,5 @@
 open System
+open System.Collections.Generic
 open Csvdiff
 open HelpVersion
 open CliArgs
@@ -32,10 +33,10 @@ let main argv =
         let fields = myArgs.ModFields
 
         // Parse data into a map
-        let parsedBaseFile =
+        let (parsedBaseFile : IReadOnlyDictionary<int,string>) =
             parseLines baseFile separator primary fields
 
-        let parsedDeltaFile =
+        let (parsedDeltaFile : IReadOnlyDictionary<int,string>) =
             parseLines deltaFile separator primary fields
 
         // Build line sets

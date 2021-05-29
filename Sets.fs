@@ -2,10 +2,13 @@ namespace Csvdiff
 
 module Sets =
 
+    open System.Linq
+    open System.Collections.Generic
     /// Return a sequence of the map keys
-    let getSet (myMap: Map<'Key, 'T>) =
+    // let getSet (myMap: Map<'Key, 'T>) =
+    let getSet (myMap: IReadOnlyDictionary<'Key, 'T>) =
 
-        myMap |> Map.toArray |> Array.map fst
+        myMap.Keys.ToArray()
 
     /// Return results exclusive to the first set
     let getSetExclusive set1 set2 =

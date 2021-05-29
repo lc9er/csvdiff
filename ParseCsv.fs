@@ -38,10 +38,10 @@ module ParseCsv =
             |> String.concat ""
 
         // Return Map entry
-        pKey, modLine
+        hash pKey, modLine
 
     let parseLines (fileLines: string []) (separator: char) (pKeyFields: array<int>) (modFields: string * array<int>) =
 
         fileLines
         |> Array.map (fun line -> splitLine line separator pKeyFields modFields)
-        |> Map.ofArray
+        |> readOnlyDict
