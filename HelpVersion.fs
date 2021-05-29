@@ -29,4 +29,4 @@ EXAMPLES:
     csvdiff oldFile.csv newFile.csv -s : -e 2
 "
 
-    let getCsvdiffVersion = "csvdiff version: 1.0.0"
+    let getCsvdiffVersion = "csvdiff version: 1.1.0"
