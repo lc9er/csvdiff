@@ -9,7 +9,7 @@ module ReadFile =
     let fetchLines filePath separator =
 
         if File.Exists filePath then
-            let csv = CsvFile.Load( __SOURCE_DIRECTORY__ + filePath, (separator |> string ))
+            let csv = CsvFile.Load( Path.GetFullPath filePath, (separator |> string ))
             csv.Rows
         else
             failwith filePath
