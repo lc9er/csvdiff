@@ -13,11 +13,11 @@ module Format =
             | Addition -> ConsoleColor.Green
             | Deletion -> ConsoleColor.Red
             | Header -> ConsoleColor.Blue
-        
+
     /// Print line, with appropriate color scheme
-    let printFormattedResults line (color : PrintColor) =
-        
-        let consoleColor = color 
+    let printFormattedResults line (color: PrintColor) =
+
+        let consoleColor = color
 
         Console.ForegroundColor <- consoleColor.ApplyColor
 

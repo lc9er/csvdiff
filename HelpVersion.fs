@@ -2,8 +2,7 @@ namespace Csvdiff
 
 module HelpVersion =
 
-    let getCsvdiffHelp = 
-        "
+    let getCsvdiffHelp = "
 DESC:
     csvdiff - diff tool for csv files. Compare two csv files, using a primary key. Find additions, deletions, and modifications.\n
 USAGE:
@@ -29,4 +28,4 @@ EXAMPLES:
     csvdiff oldFile.csv newFile.csv -s : -e 2
 "
 
-    let getCsvdiffVersion = "csvdiff version: 1.2.0"
+    let getCsvdiffVersion = "csvdiff version: 1.2.1"

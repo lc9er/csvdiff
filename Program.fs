@@ -48,7 +48,7 @@ let main argv =
         let removals = getSetExclusive baseKeys deltaKeys
 
         let inBoth =
-            getSetBoth baseKeys deltaKeys additions removals
+            getSetExclusive (Array.concat [ baseKeys; deltaKeys ]) (Array.concat [ additions; removals ])
 
         // Keep lines where keys match but values don't
         let modified =
