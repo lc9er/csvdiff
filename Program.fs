@@ -51,9 +51,19 @@ let main argv =
             getSetExclusive (Array.concat [ baseKeys; deltaKeys ]) (Array.concat [ additions; removals ])
 
         // Keep lines where keys match but values don't
+        let compareLines (oldLine: string) (newLine: string) =
+                oldLine <> newLine 
+
+        let linesAsync x oldLine newLine =
+            async { return (x, compareLines oldLine newLine) }
+
         let modified =
             inBoth
-            |> Array.filter (fun x -> parsedBaseFile.[x] <> parsedDeltaFile.[x])
+            |> Array.map (fun x-> linesAsync x parsedBaseFile.[x] parsedDeltaFile.[x])
+            |> Async.Parallel
+            |> Async.RunSynchronously
+            |> Array.filter snd
+            |> Array.map fst
 
         // Print it
         //
